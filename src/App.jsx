@@ -6,19 +6,24 @@ import ProjectForm from "./components/ProjectForm";
 import SearchBar from "./components/SearchBar";
 import ProjectList from "./components/ProjectList";
 import Footer from "./components/Footer";
+import initialProjects from "./data/project";
 
 function App() {
-  const [projects, setProjects] = useState([
-    { id: 1, title: "Project 1", description: "Description of the project" },
-    { id: 2, title: "Project 2", description: "Description of the project" },
-    { id: 3, title: "Project 3", description: "Description of the project" }
-  ]);
+  // Stores all projects
+  const [projects, setProjects] = useState(initialProjects);
 
+  // Stores search text
   const [search, setSearch] = useState("");
 
+  // Adds a new project
   function addProject(project) {
-    setProjects([
-      ...projects,
+    // Prevent empty submissions
+    if (!project.title.trim() || !project.description.trim()) {
+      return;
+    }
+
+    setProjects((previousProjects) => [
+      ...previousProjects,
       {
         id: Date.now(),
         ...project,
@@ -26,18 +31,25 @@ function App() {
     ]);
   }
 
+  // Filter projects by title or description
   const filteredProjects = projects.filter((project) =>
-    project.title.toLowerCase().includes(search.toLowerCase())
+    project.title.toLowerCase().includes(search.toLowerCase().trim()) ||
+    project.description.toLowerCase().includes(search.toLowerCase().trim())
   );
 
   return (
     <div className="app">
       <div className="main-container">
         <Header />
+
         <ProjectForm addProject={addProject} />
 
         <div className="project-section">
-          <SearchBar setSearch={setSearch} />
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+          />
+
           <ProjectList projects={filteredProjects} />
         </div>
 

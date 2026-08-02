@@ -1,45 +1,28 @@
-// Import testing utilities
 import { render, screen } from "@testing-library/react";
-
-// Import userEvent to simulate typing
 import userEvent from "@testing-library/user-event";
-
-// Import custom Jest matchers
 import "@testing-library/jest-dom";
-
-// Import the SearchBar component
 import SearchBar from "../components/SearchBar";
 
-// Test that the search input is displayed
-test("renders the search input", () => {
+describe("SearchBar Component", () => {
+  test("renders the search input", () => {
+    const mockSetSearch = vi.fn(); // use jest.fn() if using Jest
 
-  // Create a mock function for setSearch
-  const mockSetSearch = vi.fn();
+    render(<SearchBar setSearch={mockSetSearch} />);
 
-  // Render the SearchBar component
-  render(<SearchBar setSearch={mockSetSearch} />);
+    expect(
+      screen.getByPlaceholderText(/search projects/i)
+    ).toBeInTheDocument();
+  });
 
-  // Verify the search input is present
-  expect(
-    screen.getByPlaceholderText(/search projects/i)
-  ).toBeInTheDocument();
-});
+  test("calls setSearch with the typed value", async () => {
+    const mockSetSearch = vi.fn(); // use jest.fn() if using Jest
 
-// Test that typing in the search bar updates the search value
-test("calls setSearch when typing", async () => {
+    render(<SearchBar setSearch={mockSetSearch} />);
 
-  // Create a mock function
-  const mockSetSearch = vi.fn();
+    const input = screen.getByPlaceholderText(/search projects/i);
 
-  // Render the component
-  render(<SearchBar setSearch={mockSetSearch} />);
+    await userEvent.type(input, "Project");
 
-  // Locate the search input
-  const input = screen.getByPlaceholderText(/search projects/i);
-
-  // Simulate typing
-  await userEvent.type(input, "Project");
-
-  // Verify the callback was called
-  expect(mockSetSearch).toHaveBeenCalled();
+    expect(mockSetSearch).toHaveBeenLastCalledWith("Project");
+  });
 });

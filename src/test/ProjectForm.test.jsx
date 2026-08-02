@@ -1,35 +1,30 @@
-// Import testing utilities from React Testing Library
 import { render, screen } from "@testing-library/react";
-
-// Import userEvent to simulate user interactions
 import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
 
-// Import the ProjectForm component
 import ProjectForm from "../components/ProjectForm";
 
-// Test that submitting the form calls the addProject function
 test("submits a new project", async () => {
-
-  // Create a mock function to replace addProject
   const mockAddProject = jest.fn();
 
-  // Render the ProjectForm component
   render(<ProjectForm addProject={mockAddProject} />);
 
-  // Find the project name input
-  const input = screen.getByPlaceholderText(/project name/i);
-
-  // Find the Add Project button
+  const titleInput = screen.getByLabelText(/title/i);
+  const descriptionInput = screen.getByLabelText(/description/i);
   const button = screen.getByRole("button", {
-    name: /add project/i,
+    name: /add/i,
   });
 
-  // Simulate the user typing a project name
-  await userEvent.type(input, "Portfolio Website");
+  await userEvent.type(titleInput, "Portfolio Website");
+  await userEvent.type(
+    descriptionInput,
+    "A personal portfolio website built with React."
+  );
 
-  // Simulate clicking the Add Project button
   await userEvent.click(button);
 
-  // Verify that addProject was called with the entered project name
-  expect(mockAddProject).toHaveBeenCalledWith("Portfolio Website");
+  expect(mockAddProject).toHaveBeenCalledWith({
+    title: "Portfolio Website",
+    description: "A personal portfolio website built with React.",
+  });
 });

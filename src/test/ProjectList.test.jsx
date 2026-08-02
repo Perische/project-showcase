@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import ProjectList from "../components/ProjectList";
 
 const projects = [
@@ -9,8 +10,16 @@ const projects = [
   }
 ];
 
-test("renders projects", () => {
-  render(<ProjectList projects={projects} />);
+describe("ProjectList Component", () => {
+  test("renders project title", () => {
+    render(<ProjectList projects={projects} />);
 
-  expect(screen.getByText("Portfolio")).toBeInTheDocument();
+    expect(screen.getByText("Portfolio")).toBeInTheDocument();
+  });
+
+  test("renders project description", () => {
+    render(<ProjectList projects={projects} />);
+
+    expect(screen.getByText("React portfolio")).toBeInTheDocument();
+  });
 });
