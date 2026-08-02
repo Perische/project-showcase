@@ -23,7 +23,7 @@ body {
 ========================= */
 
 .main-container {
-  max-width: 1000px;
+  max-width: min(1000px, 90%);
   margin: 0 auto;
   padding: 20px;
 }
@@ -43,7 +43,11 @@ body {
   font-size: 3rem;
   font-weight: bold;
 }
-
+.header p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 10px;
+}
 /* =========================
    PROJECT FORM
 ========================= */
@@ -101,24 +105,20 @@ body {
 
 .project-form button {
   margin-top: 25px;
-
-  width: 150px;
-
-  padding: 14px;
-
-  background: white;
-
-  border: 2px solid black;
+  width: fit-content;
+  padding: 15px;
+  min-width: 150px;
+  background: rgb(7, 0, 0);
+  color: white;
+  border: none;
   border-radius: 10px;
-
   font-size: 1.1rem;
   cursor: pointer;
-
-  transition: 0.3s;
+  transition: 0.3s ease-in;
 }
 
 .project-form button:hover {
-  background: black;
+  background: #333;
   color: white;
 }
 
@@ -173,7 +173,7 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px 0;
+  padding: 24px 0;
   border-bottom: 1px solid #ddd;
   transition: .2s;
 }
@@ -272,6 +272,16 @@ body {
 
 @media (max-width: 768px) {
 
+  .main-container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .header {
+    padding: 20px 0;
+    margin-bottom: 25px;
+  }
+
   .header h1 {
     font-size: 2rem;
   }
@@ -280,21 +290,48 @@ body {
     padding: 20px;
   }
 
+  .project-form h2 {
+    font-size: 1.6rem;
+  }
+
+  .project-form label {
+    font-size: 1rem;
+  }
+
+  .project-form input,
+  .project-form textarea,
+  .search-bar {
+    font-size: 16px; /* Prevents iOS zooming */
+  }
+
   .project-form button {
     width: 100%;
   }
 
   .project-card {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
   }
 
   .project-image {
     width: 100%;
+    max-width: 320px;
     height: 180px;
   }
 
+  .project-info {
+    align-items: center;
+  }
+
   .project-info h3 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .project-info p {
+    text-align: center;
+    font-size: 1rem;
   }
 }
